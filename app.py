@@ -45,9 +45,9 @@ def init_connection():
     # st.write("password:", st.secrets["password"])
     # st.write("host:", st.secrets['host'])
     # st.write("user:", st.secrets['user'])
-    return psycopg2.connect(dbhost = st.secrets['host'],
+    return psycopg2.connect(host = st.secrets['host'],
                             user = st.secrets['user'],
-                            dbname = st.secrets['dbname'],
+                            database = st.secrets['dbname'],
                             port = 5432,
                             password = st.secrets['password'])
 
