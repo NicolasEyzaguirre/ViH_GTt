@@ -45,12 +45,18 @@ def init_connection():
     st.write("password:", st.secrets["password"])
     st.write("host:", st.secrets['host'])
     st.write("user:", st.secrets['user'])
+    return psycopg2.connect(host = host,
+                            user = user,
+                            password = password,
+                            port = 5432,
+                            database = dbname)
 
 # psycopg2.connect(**st.secrets['postgres'])
 
 # @st.experimental_singleton
 # def init_connection():
 #     return psycopg2.connect(**st.secrets['postgres'])
+
 
 
 conn=init_connection()
