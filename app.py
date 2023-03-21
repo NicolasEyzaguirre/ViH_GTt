@@ -80,6 +80,7 @@ df_consumption=pd.DataFrame(consimption,columns=['course_id','user_id','acces_da
 df_labels=pd.DataFrame(labels,columns=['course_id','label'])
 df_favorites=pd.DataFrame(favorites,columns=['course_title','course_id','user_id'])
 
+# conn.close()  #REVISAR
 imagen_sidebar = st.sidebar.image(imagen, use_column_width=True)
 menu = st.sidebar.selectbox("Selecciona la página", ['Inicio','Clase','Usuario'])
 
@@ -94,9 +95,9 @@ if menu == 'Inicio':
     with right_column:
         st.write(" ") 
         st.write(" ") 
-        st.title('XOX* Estadisticas')
+        st.title('XOX* Estadíssticas')
         st.markdown('#')
-        st.markdown('Tiene la libertad de ver las estidisticas tanto individuales como grupales de los usuarios logueados a la página')
+        st.markdown('Tiene la libertad de ver las estídisticas tanto individuales como grupales de los usuarios usuarios en línea de la página')
 
     df_counts = df_consumption.groupby(["user_id"]).size().reset_index(name="watched_courses")
     df_courses = pd.merge(df_users,df_counts , on='user_id', how='outer')
@@ -285,7 +286,7 @@ elif menu == "Clase":
 
 
 
-        st.markdown('Debajo de cada grafica irá una breve exlpicacion de la tabla  ')
+        # st.markdown('Debajo de cada gráfica irá una breve exlpicacion de la tabla  ')}
     
     
 
@@ -347,13 +348,13 @@ elif menu == "Usuario":
         df_courses['egresion']=egresion
         Egresion=df_courses.loc[selected_user,'egresion']
         if Egresion==2:
-            st.subheader(f'{selected_user} abandonara el curso')
+            st.subheader(f'{selected_user} abandonará el curso')
         elif Egresion==4 or Egresion==3:
-            st.subheader(f'{selected_user} no abandonara el curso pero tiene cursos pendientes')
+            st.subheader(f'{selected_user} no abandonará el curso, pero tiene cursos pendientes')
         elif Egresion==5:
-            st.subheader(f'{selected_user} no abandonara el curso pero no ha iniciado ningun curso')
+            st.subheader(f'{selected_user} no abandonará el curso, pero no ha iniciado ningun curso')
         else:
-            st.subheader(f'{selected_user} no abandonara el curso')
+            st.subheader(f'{selected_user} no abandonará el curso')
 
 
 
