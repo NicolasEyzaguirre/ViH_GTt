@@ -41,15 +41,15 @@ lottie_h=load_lottiefile('images/86878-creation-de-site-webdesign.json')
 
 @st.experimental_singleton
 def init_connection():
-    st.write("dbname:", st.secrets["dbname"])
-    st.write("password:", st.secrets["password"])
-    st.write("host:", st.secrets['host'])
-    st.write("user:", st.secrets['user'])
-    return psycopg2.connect(host = host,
-                            user = user,
-                            password = password,
+    # st.write("dbname:", st.secrets["dbname"])
+    # st.write("password:", st.secrets["password"])
+    # st.write("host:", st.secrets['host'])
+    # st.write("user:", st.secrets['user'])
+    return psycopg2.connect(dbhost = st.secrets['host'],
+                            user = st.secrets['user'],
+                            dbname = st.secrets['dbname'],
                             port = 5432,
-                            database = dbname)
+                            password = st.secrets['password'])
 
 # psycopg2.connect(**st.secrets['postgres'])
 
