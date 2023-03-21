@@ -80,7 +80,8 @@ df_consumption=pd.DataFrame(consimption,columns=['course_id','user_id','acces_da
 df_labels=pd.DataFrame(labels,columns=['course_id','label'])
 df_favorites=pd.DataFrame(favorites,columns=['course_title','course_id','user_id'])
 
-# conn.close()  #REVISAR
+conn.close() 
+# cur.close()
 imagen_sidebar = st.sidebar.image(imagen, use_column_width=True)
 menu = st.sidebar.selectbox("Selecciona la página", ['Inicio','Clase','Usuario'])
 
