@@ -39,10 +39,19 @@ lottie_he=load_lottiefile('images/57946-profile-user-card.json')
 lottie_h=load_lottiefile('images/86878-creation-de-site-webdesign.json')
 
 
-
 @st.experimental_singleton
 def init_connection():
-    return psycopg2.connect(**st.secrets['postgres'])
+    st.write("dbname:", st.secrets["dbname"])
+    st.write("password:", st.secrets["password"])
+    st.write("host:", st.secrets['host'])
+    st.write("user:", st.secrets['user'])
+
+# psycopg2.connect(**st.secrets['postgres'])
+
+# @st.experimental_singleton
+# def init_connection():
+#     return psycopg2.connect(**st.secrets['postgres'])
+
 
 conn=init_connection()
 
