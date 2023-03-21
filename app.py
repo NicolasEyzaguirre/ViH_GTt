@@ -14,9 +14,6 @@ from PIL import Image
 import seaborn as sns
 
 import psycopg2
-import streamlit as st
-
-from sklearn.datasets import load_iris
 import pickle
 
 
