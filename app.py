@@ -95,7 +95,7 @@ if menu == 'Inicio':
     with right_column:
         st.write(" ") 
         st.write(" ") 
-        st.title('XOX* Estadíssticas')
+        st.title('XOX* Estadísticas')
         st.markdown('#')
         st.markdown('Tiene la libertad de ver las estídisticas tanto individuales como grupales de los usuarios usuarios en línea de la página')
 
