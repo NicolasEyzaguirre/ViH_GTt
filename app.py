@@ -54,24 +54,25 @@ def run_query(query, cur):
     return cur.fetchall()
 
 @st.cache
-def load_data():
+def load_data(users, courses, consumption, labels, favorites):
     conn, cur = init_connection()
-    users=run_query('SELECT * FROM users', cur)
-    courses=run_query('SELECT * FROM courses', cur)
-    consimption=run_query('SELECT * FROM consumption', cur)
-    labels=run_query('SELECT * FROM labels', cur)
-    favorites=run_query('SELECT * FROM favorites', cur)
+    users=run_query(f'SELECT * FROM {users}', cur)
+    courses=run_query(f'SELECT * FROM {courses}', cur)
+    consumption=run_query(f'SELECT * FROM {consumption}', cur)
+    labels=run_query(f'SELECT * FROM {labels}', cur)
+    favorites=run_query(f'SELECT * FROM {favorites}', cur)
 
     df_users=pd.DataFrame(users,columns=['user_id','user_name','email','HiV_relation','age','identity','creation_date','password','role','log_in_bool','update_date'])
     df_courses=pd.DataFrame(courses,columns=['course_id','course_title','course_description','course_url','course_format','course_length','creator','creation_date','update_day'])
-    df_consumption=pd.DataFrame(consimption,columns=['course_id','user_id','acces_date','completed','last_access_date'])
+    df_consumption=pd.DataFrame(consumption,columns=['course_id','user_id','acces_date','completed','last_access_date'])
     df_labels=pd.DataFrame(labels,columns=['course_id','label'])
     df_favorites=pd.DataFrame(favorites,columns=['course_title','course_id','user_id'])
     conn.close()
+    cur.close()
 
-    return df_users,df_courses,df_consumption,df_labels,df_favorites
+    return df_users, df_courses, df_consumption, df_labels, df_favorites
 
-df_users,df_courses,df_consumption,df_labels,df_favorites = load_data()
+df_users, df_courses, df_consumption, df_labels, df_favorites = load_data('users', 'courses', 'consumption', 'labels', 'favorites')
 
 
 # # @st.experimental_singleton
