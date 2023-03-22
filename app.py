@@ -39,84 +39,84 @@ lottie_he=load_lottiefile('images/57946-profile-user-card.json')
 lottie_h=load_lottiefile('images/86878-creation-de-site-webdesign.json')
 
 
-def init_connection():
-    conn = psycopg2.connect(host = st.secrets['host'],
-                            user = st.secrets['user'],
-                            database = st.secrets['dbname'],
-                            port = 5432,
-                            password = st.secrets['password'])
-    cur = conn.cursor()
-    return conn, cur
-
-
-def run_query(query, cur):
-    cur.execute(query)
-    return cur.fetchall()
-
-@st.cache
-def load_data(users, courses, consumption, labels, favorites):
-    conn, cur = init_connection()
-    users=run_query(f'SELECT * FROM {users}', cur)
-    courses=run_query(f'SELECT * FROM {courses}', cur)
-    consumption=run_query(f'SELECT * FROM {consumption}', cur)
-    labels=run_query(f'SELECT * FROM {labels}', cur)
-    favorites=run_query(f'SELECT * FROM {favorites}', cur)
-
-    df_users=pd.DataFrame(users,columns=['user_id','user_name','email','HiV_relation','age','identity','creation_date','password','role','log_in_bool','update_date'])
-    df_courses=pd.DataFrame(courses,columns=['course_id','course_title','course_description','course_url','course_format','course_length','creator','creation_date','update_day'])
-    df_consumption=pd.DataFrame(consumption,columns=['course_id','user_id','acces_date','completed','last_access_date'])
-    df_labels=pd.DataFrame(labels,columns=['course_id','label'])
-    df_favorites=pd.DataFrame(favorites,columns=['course_title','course_id','user_id'])
-    conn.close()
-    cur.close()
-
-    return df_users, df_courses, df_consumption, df_labels, df_favorites
-
-df_users, df_courses, df_consumption, df_labels, df_favorites = load_data('users', 'courses', 'consumption', 'labels', 'favorites')
-
-
-# # @st.experimental_singleton
 # def init_connection():
-#     # st.write("dbname:", st.secrets["dbname"])
-#     # st.write("password:", st.secrets["password"])
-#     # st.write("host:", st.secrets['host'])
-#     # st.write("user:", st.secrets['user'])
-#     return psycopg2.connect(host = st.secrets['host'],
+#     conn = psycopg2.connect(host = st.secrets['host'],
 #                             user = st.secrets['user'],
 #                             database = st.secrets['dbname'],
 #                             port = 5432,
 #                             password = st.secrets['password'])
-
-# # psycopg2.connect(**st.secrets['postgres'])
-
-# # @st.experimental_singleton
-# # def init_connection():
-# #     return psycopg2.connect(**st.secrets['postgres'])
+#     cur = conn.cursor()
+#     return conn, cur
 
 
-# if 'users' not in locals():
-#     conn=init_connection()
+# def run_query(query, cur):
+#     cur.execute(query)
+#     return cur.fetchall()
 
-#     # @st.experimental_memo(ttl=600)
-#     def run_query(query):
-#         with conn.cursor() as cur:
-#             cur.execute(query)
-#             return cur.fetchall()
-        
-#     users=run_query('SELECT * FROM users')
-#     courses=run_query('SELECT * FROM courses')
-#     consimption=run_query('SELECT * FROM consumption')
-#     labels=run_query('SELECT * FROM labels')
-#     favorites=run_query('SELECT * FROM favorites')
-
+# @st.cache
+# def load_data(users, courses, consumption, labels, favorites):
+#     conn, cur = init_connection()
+#     users=run_query(f'SELECT * FROM {users}', cur)
+#     courses=run_query(f'SELECT * FROM {courses}', cur)
+#     consumption=run_query(f'SELECT * FROM {consumption}', cur)
+#     labels=run_query(f'SELECT * FROM {labels}', cur)
+#     favorites=run_query(f'SELECT * FROM {favorites}', cur)
 
 #     df_users=pd.DataFrame(users,columns=['user_id','user_name','email','HiV_relation','age','identity','creation_date','password','role','log_in_bool','update_date'])
 #     df_courses=pd.DataFrame(courses,columns=['course_id','course_title','course_description','course_url','course_format','course_length','creator','creation_date','update_day'])
-#     df_consumption=pd.DataFrame(consimption,columns=['course_id','user_id','acces_date','completed','last_access_date'])
+#     df_consumption=pd.DataFrame(consumption,columns=['course_id','user_id','acces_date','completed','last_access_date'])
 #     df_labels=pd.DataFrame(labels,columns=['course_id','label'])
 #     df_favorites=pd.DataFrame(favorites,columns=['course_title','course_id','user_id'])
+#     conn.close()
+#     cur.close()
 
-#     conn.close() 
+#     return df_users, df_courses, df_consumption, df_labels, df_favorites
+
+# df_users, df_courses, df_consumption, df_labels, df_favorites = load_data('users', 'courses', 'consumption', 'labels', 'favorites')
+
+
+# @st.experimental_singleton
+def init_connection():
+    # st.write("dbname:", st.secrets["dbname"])
+    # st.write("password:", st.secrets["password"])
+    # st.write("host:", st.secrets['host'])
+    # st.write("user:", st.secrets['user'])
+    return psycopg2.connect(host = st.secrets['host'],
+                            user = st.secrets['user'],
+                            database = st.secrets['dbname'],
+                            port = 5432,
+                            password = st.secrets['password'])
+
+# psycopg2.connect(**st.secrets['postgres'])
+
+# @st.experimental_singleton
+# def init_connection():
+#     return psycopg2.connect(**st.secrets['postgres'])
+
+
+if 'users' not in locals():
+    conn=init_connection()
+
+    # @st.experimental_memo(ttl=600)
+    def run_query(query):
+        with conn.cursor() as cur:
+            cur.execute(query)
+            return cur.fetchall()
+        
+    users=run_query('SELECT * FROM users')
+    courses=run_query('SELECT * FROM courses')
+    consimption=run_query('SELECT * FROM consumption')
+    labels=run_query('SELECT * FROM labels')
+    favorites=run_query('SELECT * FROM favorites')
+
+
+    df_users=pd.DataFrame(users,columns=['user_id','user_name','email','HiV_relation','age','identity','creation_date','password','role','log_in_bool','update_date'])
+    df_courses=pd.DataFrame(courses,columns=['course_id','course_title','course_description','course_url','course_format','course_length','creator','creation_date','update_day'])
+    df_consumption=pd.DataFrame(consimption,columns=['course_id','user_id','acces_date','completed','last_access_date'])
+    df_labels=pd.DataFrame(labels,columns=['course_id','label'])
+    df_favorites=pd.DataFrame(favorites,columns=['course_title','course_id','user_id'])
+
+    conn.close() 
 # cur.close()
 imagen_sidebar = st.sidebar.image(imagen, use_column_width=True)
 menu = st.sidebar.selectbox("Selecciona la página", ['Inicio','Clase','Usuario'])
