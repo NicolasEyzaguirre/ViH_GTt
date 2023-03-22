@@ -53,7 +53,7 @@ def run_query(query, cur):
     cur.execute(query)
     return cur.fetchall()
 
-@st.cache_data
+@st.cache
 def load_dfs(users, courses, consumption, labels, favorites):
     conn, cur = init_connection()
 
