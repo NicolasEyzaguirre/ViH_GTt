@@ -70,6 +70,8 @@ def load_data():
 
     return df_users,df_courses,df_consumption,df_labels,df_favorites
 
+load_data()
+
 
 # # @st.experimental_singleton
 # def init_connection():
