@@ -39,7 +39,7 @@ lottie_he=load_lottiefile('images/57946-profile-user-card.json')
 lottie_h=load_lottiefile('images/86878-creation-de-site-webdesign.json')
 
 
-@st.experimental_singleton
+# @st.experimental_singleton
 def init_connection():
     # st.write("dbname:", st.secrets["dbname"])
     # st.write("password:", st.secrets["password"])
@@ -61,7 +61,7 @@ def init_connection():
 
 conn=init_connection()
 
-@st.experimental_memo(ttl=600)
+# @st.experimental_memo(ttl=600)
 def run_query(query):
     with conn.cursor() as cur:
         cur.execute(query)
