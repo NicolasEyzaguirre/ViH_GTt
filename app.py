@@ -58,7 +58,7 @@ def init_connection():
 #     return psycopg2.connect(**st.secrets['postgres'])
 
 
-if 'users' in locals():
+if 'users' not in locals():
     conn=init_connection()
 
     # @st.experimental_memo(ttl=600)
