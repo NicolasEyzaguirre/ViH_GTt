@@ -39,16 +39,22 @@ lottie_he=load_lottiefile('images/57946-profile-user-card.json')
 lottie_h=load_lottiefile('images/86878-creation-de-site-webdesign.json')
 
 
+@st.cache
 def init_connection():
-    return psycopg2.connect(host = st.secrets['host'],
+    conn = psycopg2.connect(host = st.secrets['host'],
                             user = st.secrets['user'],
                             database = st.secrets['dbname'],
                             port = 5432,
                             password = st.secrets['password'])
+    cur = conn.cursor()
+    return conn, cur
 
-conn = init_connection()
+
+conn, cur = init_connection()
+
+
 def run_query(query):
-    with conn.cursor() as cur:
+    with cur as cur:
         cur.execute(query)
         return cur.fetchall()
 
@@ -70,7 +76,7 @@ def load_data():
 
     return df_users,df_courses,df_consumption,df_labels,df_favorites
 
-load_data()
+df_users,df_courses,df_consumption,df_labels,df_favorites = load_data()
 
 
 # # @st.experimental_singleton
