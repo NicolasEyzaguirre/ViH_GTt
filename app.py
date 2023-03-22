@@ -39,7 +39,6 @@ lottie_he=load_lottiefile('images/57946-profile-user-card.json')
 lottie_h=load_lottiefile('images/86878-creation-de-site-webdesign.json')
 
 
-@st.cache
 def init_connection():
     conn = psycopg2.connect(host = st.secrets['host'],
                             user = st.secrets['user'],
@@ -50,21 +49,18 @@ def init_connection():
     return conn, cur
 
 
-conn, cur = init_connection()
-
-
-def run_query(query):
+def run_query(query, cur):
     cur.execute(query)
     return cur.fetchall()
 
 @st.cache
 def load_data():
-
-    users=run_query('SELECT * FROM users')
-    courses=run_query('SELECT * FROM courses')
-    consimption=run_query('SELECT * FROM consumption')
-    labels=run_query('SELECT * FROM labels')
-    favorites=run_query('SELECT * FROM favorites')
+    conn, cur = init_connection()
+    users=run_query('SELECT * FROM users', cur)
+    courses=run_query('SELECT * FROM courses', cur)
+    consimption=run_query('SELECT * FROM consumption', cur)
+    labels=run_query('SELECT * FROM labels', cur)
+    favorites=run_query('SELECT * FROM favorites', cur)
 
     df_users=pd.DataFrame(users,columns=['user_id','user_name','email','HiV_relation','age','identity','creation_date','password','role','log_in_bool','update_date'])
     df_courses=pd.DataFrame(courses,columns=['course_id','course_title','course_description','course_url','course_format','course_length','creator','creation_date','update_day'])
@@ -72,7 +68,7 @@ def load_data():
     df_labels=pd.DataFrame(labels,columns=['course_id','label'])
     df_favorites=pd.DataFrame(favorites,columns=['course_title','course_id','user_id'])
     conn.close()
-    cur.close()
+
     return df_users,df_courses,df_consumption,df_labels,df_favorites
 
 df_users,df_courses,df_consumption,df_labels,df_favorites = load_data()
