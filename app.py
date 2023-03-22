@@ -54,9 +54,8 @@ conn, cur = init_connection()
 
 
 def run_query(query):
-    with cur as cur:
-        cur.execute(query)
-        return cur.fetchall()
+    cur.execute(query)
+    return cur.fetchall()
 
 @st.cache
 def load_data():
@@ -73,7 +72,7 @@ def load_data():
     df_labels=pd.DataFrame(labels,columns=['course_id','label'])
     df_favorites=pd.DataFrame(favorites,columns=['course_title','course_id','user_id'])
     conn.close()
-
+    cur.close()
     return df_users,df_courses,df_consumption,df_labels,df_favorites
 
 df_users,df_courses,df_consumption,df_labels,df_favorites = load_data()
