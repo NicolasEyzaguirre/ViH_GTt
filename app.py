@@ -58,29 +58,29 @@ def init_connection():
 #     return psycopg2.connect(**st.secrets['postgres'])
 
 
+if not users :
+    conn=init_connection()
 
-conn=init_connection()
-
-# @st.experimental_memo(ttl=600)
-def run_query(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        return cur.fetchall()
-    
-users=run_query('SELECT * FROM users')
-courses=run_query('SELECT * FROM courses')
-consimption=run_query('SELECT * FROM consumption')
-labels=run_query('SELECT * FROM labels')
-favorites=run_query('SELECT * FROM favorites')
+    # @st.experimental_memo(ttl=600)
+    def run_query(query):
+        with conn.cursor() as cur:
+            cur.execute(query)
+            return cur.fetchall()
+        
+    users=run_query('SELECT * FROM users')
+    courses=run_query('SELECT * FROM courses')
+    consimption=run_query('SELECT * FROM consumption')
+    labels=run_query('SELECT * FROM labels')
+    favorites=run_query('SELECT * FROM favorites')
 
 
-df_users=pd.DataFrame(users,columns=['user_id','user_name','email','HiV_relation','age','identity','creation_date','password','role','log_in_bool','update_date'])
-df_courses=pd.DataFrame(courses,columns=['course_id','course_title','course_description','course_url','course_format','course_length','creator','creation_date','update_day'])
-df_consumption=pd.DataFrame(consimption,columns=['course_id','user_id','acces_date','completed','last_access_date'])
-df_labels=pd.DataFrame(labels,columns=['course_id','label'])
-df_favorites=pd.DataFrame(favorites,columns=['course_title','course_id','user_id'])
+    df_users=pd.DataFrame(users,columns=['user_id','user_name','email','HiV_relation','age','identity','creation_date','password','role','log_in_bool','update_date'])
+    df_courses=pd.DataFrame(courses,columns=['course_id','course_title','course_description','course_url','course_format','course_length','creator','creation_date','update_day'])
+    df_consumption=pd.DataFrame(consimption,columns=['course_id','user_id','acces_date','completed','last_access_date'])
+    df_labels=pd.DataFrame(labels,columns=['course_id','label'])
+    df_favorites=pd.DataFrame(favorites,columns=['course_title','course_id','user_id'])
 
-conn.close() 
+    conn.close() 
 # cur.close()
 imagen_sidebar = st.sidebar.image(imagen, use_column_width=True)
 menu = st.sidebar.selectbox("Selecciona la página", ['Inicio','Clase','Usuario'])
